@@ -1,0 +1,40 @@
+# Local settings
+app.ini
+
+# Python
+__pycache__/
+*.py[cod]
+.cache
+
+# File managers
+*~
+*.swp
+.directory
+.DS_Store
+
+# Geany editor
+*.geany
+
+# NinjaIDE
+.*.nja
+
+# Eclipse
+.project
+.pydevproject
+.settings
+
+# Netbeans
+nbproject/
+
+# PyCharm
+.idea
+
+# Local databases
+*.sqlite
+
+# Node
+node_modules/
+
+# Tests and logs
+*.log
+tests_failures/

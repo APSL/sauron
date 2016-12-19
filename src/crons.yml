@@ -1,0 +1,33 @@
+#automatización de tareas para comandos controlados por aploy
+
+#command1:
+#    minute: '*/15'
+#    hour: '0'
+#    monthday: '24'
+#    month: '12'
+#    weekday: '1'
+#    command: 'command_name'
+#    parameters:
+#        - "param1"
+#        - "--param2 param2"
+#        - "--param3 param3"
+#
+#command2:
+#    minute: '30'
+#    hour: '15'
+#    command: 'otro_command'
+
+# Nota que solo es necesario especificar los valores diferentes a '*', si no ese será el valor por defecto.
+#NOTA importante, si una app está marcada como que se gestionan automáticamente los crons y no se define el archivo o no se marca un entorno para que configure los crons, se vaciará el crontab del usuario al actualizar.
+
+#ejemplo:
+# envío de e-mails desde django yubin
+
+send_mail:
+    minute: '*/1'
+    command: 'send_mail'
+
+#retry_deferred:
+#    minute: '9,29,49'
+#    command: 'retry_deferred'
+

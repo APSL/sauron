@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Toilet Status{% endblock title %}
+
+{% block content %}
+  <div class="row">
+  {% for toilet in toilets %}
+    <div class="col-md-6">
+      <h2>Està lliure {{ toilet.name }}?</h2>
+      <h3 id="toilet-{{ toilet.id }}"></h3>
+      <h4 id="toilet-counter-{{ toilet.id }}"></h4>
+    </div>
+  {% endfor %}
+  </div>
+{% endblock content %}
+
+{% block page_js %}
+    <script>
+        function createTimeCounter(date, toilet_id){
+            if (date){
+                return setInterval(function () {
+                    $("#toilet-counter-" + toilet_id).text(countdown(date).toString());
+                }, 1000);
+            }
+        }
+        $(function () {
+            var timeCounters = [];
+            // Correctly decide between ws:// and wss://
+            var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+            var ws_path = ws_scheme + '://' + window.location.host + "/stream/";
+            console.log("Connecting to " + ws_path);
+            var socket = new ReconnectingWebSocket(ws_path);
+            // Handle incoming messages
+            socket.onmessage = function(message) {
+                console.log("Got message " + message.data);
+                var data = JSON.parse(message.data);
+                $.each(data, function(index, item){
+                    $("#toilet-" + item.toilet_id).text(item.value);
+                    clearTimeout(timeCounters[item.toilet_id]);
+                    $("#toilet-counter-" + item.toilet_id).text("");
+                    if (item.value == 'no'){
+                        timeCounters[item.toilet_id] = createTimeCounter(new Date(item.date), item.toilet_id);
+                    }
+                });
+            };
+            // Helpful debugging
+            socket.onopen = function() {
+                console.log("Connected to notification socket");
+                $.get('toilet_last_event')
+            };
+            socket.onclose = function() {
+                console.log("Disconnected to notification socket");
+            };
+        });
+    </script>
+{% endblock page_js %}

@@ -1,0 +1,59 @@
+[Paths]
+APP_ROOT                  = /home/marc/workspacetenerife_japon_status/src
+STATIC_ROOT               = /tmp/tenerife_japon_status-static
+MEDIA_ROOT                = /mnt/canape/tenerife_japon_status
+
+[Logs]
+SENTRY_ENABLED            = False
+SENTRY_DSN                =
+LOG_LEVEL                 = DEBUG
+DJANGO_LOG_LEVEL          = INFO
+; EXTRA_LOGGING           = boto3:INFO,botocore:INFO
+; LOG_FILE                = /home/marc/workspacetenerife_japon_status/tenerife_japon_status.log
+
+; [Database]
+; DATABASE_USER           = apsl
+; DATABASE_HOST           = mamut.apsl.net
+; DATABASE_ENGINE         = postgresql_psycopg2
+; DATABASE_NAME           = tenerife_japon_statusdb
+; DATABASE_PORT           =
+; DATABASE_PASSWORD       = 1234
+; DATABASE_CONN_MAX_AGE   = 30
+
+; TEST_DATABASE_USER      = apsl
+; TEST_DATABASE_ENGINE    = postgresql
+; TEST_DATABASE_HOST      = canape.apsl.net
+; TEST_DATABASE_NAME      = tenerife_japon_status_test_db
+; TEST_DATABASE_PORT      = 5434
+; TEST_DATABASE_PASSWORD  = 1234
+
+[Base]
+APP_SLUG                  = tenerife_japon_status
+
+[Security]
+SECRET_KEY                = nova key
+ALLOWED_HOSTS             = *
+
+[Debug]
+DEBUG                     = True
+TEMPLATE_DEBUG            = True
+ENABLE_DEBUG_TOOLBAR      = True
+
+[Compress]
+COMPRESS_ENABLED          = True
+COMPRESS_OFFLINE          = False
+COMPRESS_LESSC_PATH       = ../node_modules/.bin/lessc
+COMPRESS_BABEL_PATH       = ../node_modules/.bin/babel
+
+[WhiteNoise]
+ENABLE_WHITENOISE = False
+
+[Cache]
+CACHE_TYPE                = dummy
+; CACHE_TYPE              = redis
+; REDIS_HOST              = localhost
+; CACHE_REDIS_DB          = 0
+; REDIS_PORT              = 6379
+; CACHE_MAX_ENTRIES       = 10000
+; CACHE_TIMEOUT           = 3600
+; CACHE_PREFIX            = tenerife_japon_status
