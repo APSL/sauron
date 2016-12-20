@@ -49,14 +49,10 @@ class Base(CachesMixin, DatabasesMixin, CompressMixin, PathsMixin, LogsMixin,
         'toilet',
 
         # 3rd parties
-        'compressor',
-        'constance',
-        'constance.backends.database',
         'django_extensions',
         'django_yubin',
         'kaio',
         'logentry_admin',
-        'robots',
         'channels'
     ]
 
@@ -104,21 +100,9 @@ class Base(CachesMixin, DatabasesMixin, CompressMixin, PathsMixin, LogsMixin,
             ('django.template.loaders.cached.Loader', TEMPLATES[0]['OPTIONS']['loaders']),
         ]
 
-    # Email
-    EMAIL_BACKEND = 'django_yubin.smtp_queue.EmailBackend'
-    DEFAULT_FROM_EMAIL = opts.get('DEFAULT_FROM_EMAIL', 'Example <info@example.com>')
-    MAILER_LOCK_PATH = join(BASE_DIR, 'send_mail')
-
     # Bootstrap 3 alerts integration with Django messages
     MESSAGE_TAGS = {
         messages.ERROR: 'danger',
-    }
-
-    # Constance
-    CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
-    CONSTANCE_DATABASE_CACHE_BACKEND = 'default'
-    CONSTANCE_CONFIG = {
-        'GOOGLE_ANALYTICS_TRACKING_CODE': ('UA-XXXXX-Y', 'Google Analytics tracking code.'),
     }
 
     # Channels
@@ -128,12 +112,3 @@ class Base(CachesMixin, DatabasesMixin, CompressMixin, PathsMixin, LogsMixin,
             "ROUTING": "toilet.routing.channel_routing",
         },
     }
-
-
-class Test(Base):
-    """
-    Project settings for testing.
-    """
-
-    def DATABASES(self):
-        return self.get_databases(prefix='TEST_')

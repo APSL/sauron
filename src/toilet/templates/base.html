@@ -1,4 +1,4 @@
-{% load static i18n compress %}<!DOCTYPE html>
+{% load static i18n %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
     <meta charset="UTF-8">
@@ -15,9 +15,6 @@
     {% block css %}
       <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-      {% compress css %}
-        <link rel="stylesheet" type="text/less" href="{% static 'main/css/main.less' %}">
-      {% endcompress %}
     {% endblock %}
 
     {% block page_css %}
