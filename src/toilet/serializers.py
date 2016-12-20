@@ -7,3 +7,4 @@ class ToiletLectureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ToiletLecture
+        exclude = ()
