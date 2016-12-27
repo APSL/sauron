@@ -1,16 +1,9 @@
 import time
 import network
 import urequests
-
 from machine import ADC
 
-
-TOILET_URL = "http://toilet.ngrok.io/toilet_lecture/"
-TOILET_ID = 1
-WLAN_NAME = 'APSL-Convidats'
-WLAN_PASS = 'covagelada'
-MIN_LDR_VAL = 100
-MAX_LDR_VAL = 800
+from config import WLAN_NAME, WLAN_PASS, TOILET_URL, TOILET_ID, MIN_LDR_VAL, MAX_LDR_VAL
 
 
 def do_connect():
@@ -23,9 +16,9 @@ def do_connect():
             pass
 
 
-def send_data(value):
+def send_data(is_used):
     do_connect()
-    r = urequests.post(TOILET_URL, json={"toilet": TOILET_ID, "value": value},
+    r = urequests.post(TOILET_URL, json={"toilet": TOILET_ID, "is_used": is_used},
                        headers={'content-type': 'application/json'})
     r.close()
 
@@ -37,8 +30,8 @@ while True:
     print(adc.read())
     if adc.read() < MIN_LDR_VAL and light_on:
         light_on = False
-        send_data("si")
+        send_data(is_used=False)
     elif adc.read() > MAX_LDR_VAL and not light_on:
         light_on = True
-        send_data("no")
+        send_data(is_used=True)
     time.sleep(1)

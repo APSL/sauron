@@ -38,3 +38,6 @@ node_modules/
 # Tests and logs
 *.log
 tests_failures/
+
+# IoT
+iot/config.py
