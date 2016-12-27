@@ -12,23 +12,23 @@ from .serializers import ToiletLectureSerializer
 from .models import ToiletLecture, Toilet
 
 
-class ToiletStatusView(TemplateView):
+class ToiletsStatusView(TemplateView):
     template_name = 'toilet_status.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ToiletStatusView, self).get_context_data(**kwargs)
+        context = super(ToiletsStatusView, self).get_context_data(**kwargs)
         context['toilets'] = Toilet.objects.all()
         return context
 
 
-class ToiletLastEventView(View):
+class ToiletsLastEventView(View):
 
     def get(self, request, *args, **kwargs):
         Group("stream").send({"text": json.dumps(ToiletLecture.last_lecture())})
         return HttpResponse()
 
 
-class ToiletLectureCreateAPIView(generics.CreateAPIView):
+class ToiletsLectureCreateAPIView(generics.CreateAPIView):
     model = ToiletLecture
     serializer_class = ToiletLectureSerializer
 
@@ -40,7 +40,13 @@ class ToiletLectureCreateAPIView(generics.CreateAPIView):
         return Response(None, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class ToiletLastLectureView(generics.GenericAPIView):
+class ToiletsLastLectureView(generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         return Response(ToiletLecture.last_lecture())
+
+
+class ToiletLastUsageTimeView(generics.GenericAPIView):
+
+    def get(self, request, *args, **kwargs):
+        return Response({'usage_time': ToiletLecture.last_usage_time(toilet_id=self.kwargs['pk'])})
