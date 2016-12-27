@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from channels import Group
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 
 from .serializers import ToiletLectureSerializer
@@ -31,6 +31,13 @@ class ToiletLastEventView(View):
 class ToiletLectureCreateAPIView(generics.CreateAPIView):
     model = ToiletLecture
     serializer_class = ToiletLectureSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(None, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class ToiletLastLectureView(generics.GenericAPIView):
