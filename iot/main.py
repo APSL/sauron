@@ -16,9 +16,9 @@ def do_connect():
             pass
 
 
-def send_data(is_used):
+def send_data(in_use):
     do_connect()
-    r = urequests.post(TOILET_URL, json={"toilet": TOILET_ID, "is_used": is_used},
+    r = urequests.post(TOILET_URL, json={"toilet": TOILET_ID, "in_use": in_use},
                        headers={'content-type': 'application/json'})
     r.close()
 
@@ -30,8 +30,8 @@ while True:
     print(adc.read())
     if adc.read() < MIN_LDR_VAL and light_on:
         light_on = False
-        send_data(is_used=False)
+        send_data(in_use=False)
     elif adc.read() > MAX_LDR_VAL and not light_on:
         light_on = True
-        send_data(is_used=True)
+        send_data(in_use=True)
     time.sleep(1)
