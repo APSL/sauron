@@ -106,9 +106,20 @@ class Base(CachesMixin, DatabasesMixin, CompressMixin, PathsMixin, LogsMixin,
     }
 
     # Channels
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "asgiref.inmemory.ChannelLayer",
-            "ROUTING": "toilet.routing.channel_routing",
-        },
-    }
+    if DEBUG:
+        CHANNEL_LAYERS = {
+            "default": {
+                "BACKEND": "asgiref.inmemory.ChannelLayer",
+                "ROUTING": "toilet.routing.channel_routing",
+            },
+        }
+   else:
+        CHANNEL_LAYERS = {
+            "default": {
+                "BACKEND": "asgi_redis.RedisChannelLayer",
+                "CONFIG": {
+                    "hosts": [("redis", 6379)],
+                },
+                "ROUTING": "toilet.routing.channel_routing",
+            },
+        }
