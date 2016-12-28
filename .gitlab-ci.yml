@@ -1,0 +1,41 @@
+image: apsl/gitlab-builder
+before_script:
+  - docker info
+  - export VERSION=${CI_PIPELINE_ID}-${CI_BUILD_REF:0:8}
+  - export IMAGE=${DOCKER_REGISTRY}/onlysmellz/onlysmellz:$CI_BUILD_ID-${CI_BUILD_REF:0:8}
+stages:
+  - build
+  - push
+  - deploy_pre
+  - deploy_prod
+build:
+  stage: build
+  script:
+    - docker-compose -f build.yml build
+push:
+  stage: push
+  only:
+    - master
+    - staging
+  script:
+    - echo "Tagging the build with the name -> ${IMAGE}"
+    - docker tag template:build ${IMAGE}
+    - echo "Pushing the build to $DOCKER_REGISTRY , using the user $DOCKER_LOGIN"
+    - docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $DOCKER_REGISTRY
+    - docker push ${IMAGE}
+pre:
+  stage: deploy_pre
+  only:
+    - master
+    - staging
+  script:
+    - echo "Aquí irá el script de deploy a pre que será automático"
+    - echo "Imagen docker a desplegar -> ${IMAGE}"
+prod:
+  stage: deploy_prod
+  only:
+    - master
+  when: manual
+  script:
+    - echo "Aquí irá el script de deploy a prod que será manual"
+    - echo "Imagen docker a desplegar -> ${IMAGE}" 
