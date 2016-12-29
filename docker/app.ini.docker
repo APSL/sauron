@@ -1,0 +1,49 @@
+[Base]
+APP_SLUG                  = onlysmellz
+SECRET_KEY                = eed7lieyei2nimoh6eu9thee8Aivophu
+APP_ROOT                  = /app
+STATIC_URL                = /static/
+STATIC_ROOT               = /data/static
+MEDIA_URL                 = /media/
+MEDIA_ROOT                = /data/media
+
+[Database]
+DATABASE_USER             = uonlysmellz
+DATABASE_HOST             = postgres
+DATABASE_ENGINE           = postgresql_psycopg2
+DATABASE_NAME             = onlysmellzdb
+DATABASE_PORT             = 5432
+DATABASE_PASSWORD         = pass
+
+[Logs]
+SENTRY_ENABLED            = False
+SENTRY_DSN                =
+LOG_LEVEL                 = INFO
+DJANGO_LOG_LEVEL          = ERROR
+
+[Debug]
+DEBUG                     = False
+TEMPLATE_DEBUG            = False
+
+[Security]
+ALLOWED_HOSTS             = *
+
+[WhiteNoise]
+ENABLE_WHITENOISE = False
+
+[Compress]
+COMPRESS_ENABLED          = True
+COMPRESS_OFFLINE          = True
+COMPRESS_CSS_HASHING_METHOD = content
+COMPRESS_LESSC_PATH       = /app/node_modules/.bin/lessc
+COMPRESS_BABEL_PATH       = /app/node_modules/.bin/babel
+
+[Cache]
+REDIS_HOST              = redis
+CACHE_TYPE              = redis
+CACHE_REDIS_DB          = 0
+REDIS_PORT              = 6379
+CACHE_MAX_ENTRIES       = 10000
+CACHE_TIMEOUT           = 3600
+CACHE_PREFIX            = onlysmellz
+ 
