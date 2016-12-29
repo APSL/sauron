@@ -11,13 +11,31 @@ services:
       POSTGRES_PASSWORD: pass
     volumes:
       - "./data/postgres:/var/lib/postgresql/data"
-  onlysmellz:
+  uwsgi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: onlysmellz:latest
+    command: uwsgi
+    ports:
+      - 8000:8000
+    links:
+      - redis
+  daphne:
     build:
       context: .
       dockerfile: Dockerfile
     image: onlysmellz:latest
     command: daphne
     ports:
-      - 8000:8000
+      - 8001:8000
+    links:
+      - redis
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: onlysmellz:latest
+    command: runworker
     links:
       - redis

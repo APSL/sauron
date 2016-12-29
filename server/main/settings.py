@@ -113,12 +113,12 @@ class Base(CachesMixin, DatabasesMixin, CompressMixin, PathsMixin, LogsMixin,
                 "ROUTING": "toilet.routing.channel_routing",
             },
         }
-   else:
+    else:
         CHANNEL_LAYERS = {
             "default": {
                 "BACKEND": "asgi_redis.RedisChannelLayer",
                 "CONFIG": {
-                    "hosts": [("redis", 6379)],
+                    "hosts": [("redis://redis:6379/10")],
                 },
                 "ROUTING": "toilet.routing.channel_routing",
             },

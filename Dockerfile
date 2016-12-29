@@ -33,7 +33,7 @@ COPY docker/uwsgi.ini /uwsgi.ini
 COPY server /app
 
 COPY docker/app.ini.docker /app/app.ini
-# RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 VOLUME /app
 VOLUME /data
