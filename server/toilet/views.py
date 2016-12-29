@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.views import View
 from django.views.generic import TemplateView
@@ -18,6 +19,7 @@ class ToiletsStatusView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ToiletsStatusView, self).get_context_data(**kwargs)
         context['toilets'] = Toilet.objects.all()
+        context['ws_host'] = settings.WEB_SOCKET_HOST
         return context
 
 

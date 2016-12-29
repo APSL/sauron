@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from os.path import join
-
 from configurations import Configuration
 from django.contrib.messages import constants as messages
 from kaio import Options
-from kaio.mixins import (CachesMixin, DatabasesMixin, CompressMixin, LogsMixin,
-                         PathsMixin, SecurityMixin, DebugMixin, WhiteNoiseMixin)
+from kaio.mixins import CachesMixin, DatabasesMixin, LogsMixin, PathsMixin, SecurityMixin, DebugMixin, WhiteNoiseMixin
 
 
 opts = Options()
 
 
-class Base(CachesMixin, DatabasesMixin, CompressMixin, PathsMixin, LogsMixin,
-           SecurityMixin, DebugMixin, WhiteNoiseMixin, Configuration):
+class Base(CachesMixin, DatabasesMixin, PathsMixin, LogsMixin, SecurityMixin, DebugMixin,
+           WhiteNoiseMixin, Configuration):
     """
     Project settings for development and production.
     """
@@ -112,3 +109,6 @@ class Base(CachesMixin, DatabasesMixin, CompressMixin, PathsMixin, LogsMixin,
             "ROUTING": "toilet.routing.channel_routing",
         },
     }
+
+    # Web Sockets
+    WEB_SOCKET_HOST = opts.get('WEB_SOCKET_HOST', '')

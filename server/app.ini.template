@@ -8,8 +8,6 @@ SENTRY_ENABLED            = False
 SENTRY_DSN                =
 LOG_LEVEL                 = DEBUG
 DJANGO_LOG_LEVEL          = INFO
-; EXTRA_LOGGING           = boto3:INFO,botocore:INFO
-; LOG_FILE                = /home/marc/workspacetenerife_japon_status/tenerife_japon_status.log
 
 ; [Database]
 ; DATABASE_USER           = apsl
@@ -19,13 +17,6 @@ DJANGO_LOG_LEVEL          = INFO
 ; DATABASE_PORT           =
 ; DATABASE_PASSWORD       = 1234
 ; DATABASE_CONN_MAX_AGE   = 30
-
-; TEST_DATABASE_USER      = apsl
-; TEST_DATABASE_ENGINE    = postgresql
-; TEST_DATABASE_HOST      = canape.apsl.net
-; TEST_DATABASE_NAME      = tenerife_japon_status_test_db
-; TEST_DATABASE_PORT      = 5434
-; TEST_DATABASE_PASSWORD  = 1234
 
 [Base]
 APP_SLUG                  = tenerife_japon_status
@@ -39,12 +30,6 @@ DEBUG                     = True
 TEMPLATE_DEBUG            = True
 ENABLE_DEBUG_TOOLBAR      = True
 
-[Compress]
-COMPRESS_ENABLED          = True
-COMPRESS_OFFLINE          = False
-COMPRESS_LESSC_PATH       = ../node_modules/.bin/lessc
-COMPRESS_BABEL_PATH       = ../node_modules/.bin/babel
-
 [WhiteNoise]
 ENABLE_WHITENOISE = False
 
@@ -57,3 +42,6 @@ CACHE_TYPE                = dummy
 ; CACHE_MAX_ENTRIES       = 10000
 ; CACHE_TIMEOUT           = 3600
 ; CACHE_PREFIX            = tenerife_japon_status
+
+[WebSockets]
+WEB_SOCKET_HOST           =

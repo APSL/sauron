@@ -32,7 +32,8 @@
 
             // Correctly decide between ws:// and wss://
             var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-            var ws_path = ws_scheme + '://' + window.location.host + "/stream/";
+            var ws_host = '{{ ws_host }}';
+            var ws_path = ws_scheme + '://' + ws_host + "/stream/";
             console.log("Connecting to " + ws_path);
             var socket = new ReconnectingWebSocket(ws_path);
 
@@ -42,7 +43,11 @@
                 var data = JSON.parse(message.data);
                 // Set a counter for each toilet
                 $.each(data, function(index, item){
-                    $("#toilet-" + item.toilet_id).text(item.in_use);
+                    if (item.in_use){
+                        $("#toilet-" + item.toilet_id).text("Ocupat");
+                    }else{
+                        $("#toilet-" + item.toilet_id).text("Lliure");
+                    }
                     $("#toilet-counter-" + item.toilet_id).text("");
                     clearTimeout(timeCounters[item.toilet_id]);
                     timeCounters[item.toilet_id] = createTimeCounter(new Date(item.date), item.toilet_id);
