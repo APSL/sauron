@@ -16,9 +16,9 @@ push:
   only:
     - master
   script:
-    - echo "Tagging the build with the name -> ${IMAGE}"
+    - echo "Tagging the build with the name -> ${UWSGI_IMAGE}"
     - docker tag onlysmellz:build ${UWSGI_IMAGE}
-    - echo "Pushing the build to $DOCKER_REGISTRY , using the user $DOCKER_LOGIN"
+    - echo "Pushing the build to gcloud"
     - gcloud docker push ${UWSGI_IMAGE}
 prod:
   stage: deploy_prod
@@ -26,5 +26,4 @@ prod:
     - master
   when: manual
   script:
-    - echo "Aquí irá el script de deploy a prod que será manual"
-    - echo "Imagen docker a desplegar -> ${IMAGE}" 
+      - deploy.py deploy sauron sauron sauron-uwsgi=${UWSGI_IMAGE} sauron-daphne=${UWSGI_IMAGE} sauron-runworker=${UWSGI_IMAGE}
