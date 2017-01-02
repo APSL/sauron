@@ -1,8 +1,8 @@
-image: hub.apsl.net/library/gitlab-builder-gce:latest
+image: hub.apsl.net/library/gitlab-builder:latest
 before_script:
   - docker info
   - export VERSION=${CI_PIPELINE_ID}-${CI_BUILD_REF:0:8}
-  - export UWSGI_IMAGE=eu.gcr.io/apsl-hosting/sauron-uwsgi:${VERSION}
+  - export IMAGE=${DOCKER_REGISTRY}/apsl/onlysmellz:$CI_BUILD_ID-${CI_BUILD_REF:0:8}
 stages:
   - build
   - push
@@ -16,14 +16,15 @@ push:
   only:
     - master
   script:
-    - echo "Tagging the build with the name -> ${UWSGI_IMAGE}"
-    - docker tag onlysmellz:build ${UWSGI_IMAGE}
-    - echo "Pushing the build to gcloud"
-    - gcloud docker push ${UWSGI_IMAGE}
+    - echo "Tagging the build with the name -> ${IMAGE}"
+    - docker tag onlysmellz:build ${IMAGE}
+    - echo "Pushing the build to $DOCKER_REGISTRY , using the user $DOCKER_LOGIN"
+    - docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $DOCKER_REGISTRY
+    - docker push ${IMAGE}
 prod:
   stage: deploy_prod
   only:
     - master
   when: manual
   script:
-      - deploy.py deploy sauron sauron sauron-uwsgi=${UWSGI_IMAGE} sauron-daphne=${UWSGI_IMAGE} sauron-runworker=${UWSGI_IMAGE}
+    - echo "$IMAGE -> Deploy manual en mamut (de momento)"
