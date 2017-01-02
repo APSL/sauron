@@ -46,6 +46,7 @@ class Base(CachesMixin, DatabasesMixin, PathsMixin, LogsMixin, SecurityMixin, De
         'toilet',
 
         # 3rd parties
+        'raven.contrib.django.raven_compat',
         'django_extensions',
         'django_yubin',
         'kaio',
