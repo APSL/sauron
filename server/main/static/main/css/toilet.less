@@ -137,9 +137,45 @@ header {
 }
 
 section {
+  .nav-tabs {
+    border:0;
+    li {
+      &.active {
+      a,
+       a:hover{
+        background:#f5f5f5;
+        border:0;
+        margin-bottom:0;
+        .rounded(0);
+        }
+      }
+    }
+  }
+  .filterList {
+    li {
+      border-bottom:2px solid lighten(spin(@second, 8%), 90%);
+      &.active {
+        border-color:@success;
+      }
+    }
+  }
 	.well {
 		background:lighten(spin(@second, 8%), 56%) url(../img/bg.jpg);
-        border:1px dashed lighten(spin(@second, 8%), 40%);
+    border:1px dashed lighten(spin(@second, 8%), 40%);
+    &.wellStats {
+      border:0;
+      min-height:auto;
+      ul {
+        li {
+          font-size:1.3em;
+          color:@success;
+          span {
+            color:@first;
+            font-size:0.9em;
+          }
+        }
+      }
+    }
 		p {
 			display:block;
 			position:relative;

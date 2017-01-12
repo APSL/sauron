@@ -1,8 +1,11 @@
 import json
+from datetime import timedelta
 
 from django.db import models
 from django.utils import timezone
 from channels import Group
+
+from .managers import ToiletLectureQuerySet
 
 
 class Toilet(models.Model):
@@ -15,7 +18,10 @@ class Toilet(models.Model):
 class ToiletLecture(models.Model):
     start_at = models.DateTimeField(auto_now_add=True)
     end_at = models.DateTimeField(null=True, blank=True)
+    total_time = models.DurationField(default=timedelta(seconds=0))
     toilet = models.ForeignKey(Toilet)
+
+    objects = ToiletLectureQuerySet.as_manager()
 
     def __str__(self):
         return '{} - {}'.format(self.toilet, self.start_at)
@@ -44,14 +50,9 @@ class ToiletLecture(models.Model):
             return last_toilet_lecture.total_time
         return
 
-    @property
-    def total_time(self):
-        if self.end_at:
-            return int((self.end_at - self.start_at).total_seconds())
-        return 0
-
     def end_lecture(self):
         self.end_at = timezone.now()
+        self.total_time = self.end_at - self.start_at
         self.save()
 
     def save(self, *args, **kwargs):

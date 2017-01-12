@@ -7,6 +7,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^', include('toilet.urls')),
+    url(r'^stats/', include('stats.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]
 
