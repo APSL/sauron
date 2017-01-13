@@ -32,10 +32,10 @@ $(function () {
             $("#toilet-" + item.toilet_id).attr("class", !item.in_use);
             $("#toilet-counter-" + item.toilet_id).attr("class", !item.in_use);
             clearTimeout(time_counters[item.toilet_id]);
-            time_counters[item.toilet_id] = createTimeCounter(new Date(item.date), item.toilet_id);
 
             // If the toilet is free, show the last usage time
             if (!item.in_use){
+                time_counters[item.toilet_id] = createTimeCounter(new Date(item.end_at), item.toilet_id);
                 badge = (badge-1 < 0) ? 0 : (badge - 1);
                 $.get('toilet/' + item.toilet_id +'/last_usage_time', function(data){
                     $("#toilet-last-usage-" + item.toilet_id).show();
@@ -43,6 +43,7 @@ $(function () {
                     $("#toilet-last-usage-time-" + item.toilet_id).text(total_time);
                 });
             }else{
+                time_counters[item.toilet_id] = createTimeCounter(new Date(item.start_at), item.toilet_id);
                 $("#toilet-last-usage-" + item.toilet_id).hide();
             }
         });
