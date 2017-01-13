@@ -9,8 +9,10 @@ class ToiletLectureSerializer(serializers.Serializer):
 
     def save(self, **kwargs):
         toilet = self.validated_data['toilet']
+        last_lecture = ToiletLecture.last_active_lecture(toilet)
         if self.validated_data['in_use']:
-            ToiletLecture.objects.create(toilet=toilet)
+            if not last_lecture:
+                ToiletLecture.objects.create(toilet=toilet)
         else:
-            last_lecture = ToiletLecture.last_active_lecture(toilet)
-            last_lecture.end_lecture()
+            if last_lecture:
+                last_lecture.end_lecture()
