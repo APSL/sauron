@@ -1,6 +1,7 @@
 import json
 
 from django.db import models
+from django.utils import timezone
 from channels import Group
 
 
@@ -12,31 +13,47 @@ class Toilet(models.Model):
 
 
 class ToiletLecture(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    in_use = models.BooleanField()
+    start_at = models.DateTimeField(auto_now_add=True)
+    end_at = models.DateTimeField(null=True, blank=True)
     toilet = models.ForeignKey(Toilet)
 
     def __str__(self):
-        return '{} - {}'.format(self.toilet, self.created_at)
+        return '{} - {}'.format(self.toilet, self.start_at)
 
     @classmethod
-    def last_lecture(cls):
+    def last_active_lecture(cls, toilet):
+        return ToiletLecture.objects.filter(toilet=toilet, end_at__isnull=True).last()
+
+    @classmethod
+    def last_lectures(cls):
         lecture = []
         for toilet in Toilet.objects.all():
             toilet_lecture = ToiletLecture.objects.filter(toilet=toilet).last()
             if toilet_lecture:
-                lecture.append({'toilet_id': toilet.id, 'in_use': toilet_lecture.in_use,
-                                'date': toilet_lecture.created_at.isoformat()})
+                end_date = None
+                if toilet_lecture.end_at:
+                    end_date = toilet_lecture.end_at.isoformat()
+                lecture.append({'toilet_id': toilet.id, 'in_use': not bool(toilet_lecture.end_at),
+                                'start_at': toilet_lecture.start_at.isoformat(), 'end_at': end_date})
         return lecture
 
     @classmethod
     def last_usage_time(cls, toilet_id):
-        toilet_lecture_in_use = ToiletLecture.objects.filter(toilet_id=toilet_id, in_use=True).last()
-        toilet_lecture_free = ToiletLecture.objects.filter(toilet_id=toilet_id, in_use=False).last()
-        if toilet_lecture_in_use and toilet_lecture_free:
-            return int((toilet_lecture_free.created_at - toilet_lecture_in_use.created_at).total_seconds())
+        last_toilet_lecture = ToiletLecture.objects.filter(toilet_id=toilet_id, end_at__isnull=False).last()
+        if last_toilet_lecture:
+            return last_toilet_lecture.total_time
         return
+
+    @property
+    def total_time(self):
+        if self.end_at:
+            return int((self.end_at - self.start_at).total_seconds())
+        return 0
+
+    def end_lecture(self):
+        self.end_at = timezone.now()
+        self.save()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        Group("stream").send({"text": json.dumps(self.last_lecture())})
+        Group("stream").send({"text": json.dumps(self.last_lectures())})

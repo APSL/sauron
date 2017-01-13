@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 from channels import Group
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .serializers import ToiletLectureSerializer
 from .models import ToiletLecture, Toilet
@@ -26,26 +27,24 @@ class ToiletsStatusView(TemplateView):
 class ToiletsLastEventView(View):
 
     def get(self, request, *args, **kwargs):
-        Group("stream").send({"text": json.dumps(ToiletLecture.last_lecture())})
+        Group("stream").send({"text": json.dumps(ToiletLecture.last_lectures())})
         return HttpResponse()
 
 
-class ToiletsLectureCreateAPIView(generics.CreateAPIView):
-    model = ToiletLecture
-    serializer_class = ToiletLectureSerializer
+class ToiletsLectureAPIView(APIView):
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(None, status=status.HTTP_201_CREATED, headers=headers)
+    def post(self, request, *args, **kwargs):
+        serializer = ToiletLectureSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(None, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class ToiletsLastLectureView(generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
-        return Response(ToiletLecture.last_lecture())
+        return Response(ToiletLecture.last_lectures())
 
 
 class ToiletLastUsageTimeView(generics.GenericAPIView):

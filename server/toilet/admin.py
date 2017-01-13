@@ -10,4 +10,4 @@ class ToiletAdmin(admin.ModelAdmin):
 
 @admin.register(ToiletLecture)
 class ToiletLectureAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('toilet', 'start_at', 'end_at', 'total_time', )
