@@ -40,10 +40,12 @@ class Base(CachesMixin, DatabasesMixin, PathsMixin, LogsMixin, SecurityMixin, De
         'django.contrib.sites',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'django.contrib.humanize',
 
         # apps
         'main',
         'toilet',
+        'stats',
 
         # 3rd parties
         'raven.contrib.django.raven_compat',
@@ -51,7 +53,8 @@ class Base(CachesMixin, DatabasesMixin, PathsMixin, LogsMixin, SecurityMixin, De
         'django_yubin',
         'kaio',
         'logentry_admin',
-        'channels'
+        'channels',
+        'timedeltatemplatefilter',
     ]
 
     MIDDLEWARE = [

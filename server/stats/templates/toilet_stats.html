@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load i18n static timedelta_filter %}
+
+{% block favicon %}
+  <link rel="shortcut icon" href="{% static 'main/img/favicon-toilet.ico' %}">
+{% endblock favicon %}
+
+{% block title %}Toilet Stats{% endblock title %}
+
+{% block heading %}<h2>Toilet Stats</h2>{% endblock heading %}
+
+{% block content %}
+    <section class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="text-right overflow">
+            <ul class="nav nav-tabs pull-left" role="tablist">
+              {% for item in stats %}
+                <li role="presentation" class="{% if forloop.first %}active{% endif %}">
+                    <a href="#{{ item.name }}" aria-controls="{{ item.name }}" role="tab" data-toggle="tab">{{ item.name }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+            <ul class="list-inline filterList">
+              <li role="presentation" class="{% if days == '0' %}active{% endif %}"><a href="?days=0">Today</a></li>
+              <li role="presentation" class="{% if days == '7' %}active{% endif %}"><a href="?days=7">Week</a></li>
+              <li role="presentation" class="{% if days == '30' %}active{% endif %}"><a href="?days=30">Month</a></li>
+              <li role="presentation" class="{% if not days %}active{% endif %}"><a href="?">All</a></li>
+            </ul>
+          </div>
+          <div class="tab-content">
+          <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+          <script src="http://code.highcharts.com/highcharts.js"></script>
+          <script src="{% static 'main/js/toilet-stats-chart.js' %}" type="text/javascript"></script>
+          {% for item in stats %}
+            <div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ item.name }}">
+              <div class="well wellStats">
+                <ul>
+                  <li><span>Total time:</span> {{ item.summary.total_time|default_if_none:"0"|timedelta:"{hours_total} hours, {minutes} minutes, {seconds} seconds"}}</li>
+                  <li><span>Max time:</span> {{ item.summary.max_time|default_if_none:"0"|timedelta:"{minutes}:{seconds2}" }}</li>
+                  <li><span>Average time:</span> {{ item.summary.avg_time|default_if_none:"0"|timedelta:"{minutes}:{seconds2}" }}</li>
+                  <li><span>Median time:</span> {{ item.summary.median_time|default_if_none:"0"|timedelta:"{minutes}:{seconds2}" }}</li>
+                  <li><span>Total visits:</span> {{ item.summary.total_visits }}</li>
+                </ul>
+              </div>
+              <div id="container-{{ item.name }}"></div>
+              <script>
+                newChart('container-{{ item.name }}', {{ item.chart_values.hour_values }},
+                    {{ item.chart_values.visit_values }}, {{ item.chart_values.time_values }});
+              </script>
+            </div>
+          {% endfor %}
+        </div>
+        </div>
+      </div>
+
+
+    </section>
+{% endblock content %}
+{% block page_js %}
+
+{% endblock page_js %}

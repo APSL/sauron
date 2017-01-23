@@ -9,14 +9,14 @@ SENTRY_DSN                =
 LOG_LEVEL                 = DEBUG
 DJANGO_LOG_LEVEL          = INFO
 
-; [Database]
-; DATABASE_USER           = apsl
-; DATABASE_HOST           = mamut.apsl.net
-; DATABASE_ENGINE         = postgresql_psycopg2
-; DATABASE_NAME           = tenerife_japon_statusdb
-; DATABASE_PORT           =
-; DATABASE_PASSWORD       = 1234
-; DATABASE_CONN_MAX_AGE   = 30
+[Database]
+DATABASE_USER           = apsl
+DATABASE_HOST           = mamut.apsl.net
+DATABASE_ENGINE         = postgresql_psycopg2
+DATABASE_NAME           = sauron
+DATABASE_PORT           =
+DATABASE_PASSWORD       = 1234
+DATABASE_CONN_MAX_AGE   = 30
 
 [Base]
 APP_SLUG                  = tenerife_japon_status

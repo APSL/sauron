@@ -36,3 +36,4 @@ six==1.10.0
 Twisted==16.6.0
 txaio==2.5.2
 zope.interface==4.3.3
+django-timedeltatemplatefilter==0.1.2
