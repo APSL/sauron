@@ -47,8 +47,8 @@ class ToiletLecture(models.Model):
     def last_usage_time(cls, toilet_id):
         last_toilet_lecture = ToiletLecture.objects.filter(toilet_id=toilet_id, end_at__isnull=False).last()
         if last_toilet_lecture:
-            return last_toilet_lecture.total_time
-        return
+            return last_toilet_lecture.total_time.total_seconds()
+        return 0
 
     def end_lecture(self):
         self.end_at = timezone.now()

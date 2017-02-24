@@ -50,4 +50,4 @@ class ToiletsLastLectureView(generics.GenericAPIView):
 class ToiletLastUsageTimeView(generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
-        return Response({'usage_time': ToiletLecture.last_usage_time(toilet_id=self.kwargs['pk'])})
+        return Response({'usage_time': int(ToiletLecture.last_usage_time(toilet_id=self.kwargs['pk']))})
