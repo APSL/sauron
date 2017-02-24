@@ -198,7 +198,37 @@ section {
 			&.false {
 				&:before {
 					display:block;
+					background:url(../img/pee.png) no-repeat;
+					background-size:cover;
+					width:70px;
+					height:70px;
+					content:"";
+					position:absolute;
+					left:150px;
+                    margin-top:20px;
+                    animation: moving linear 3s;
+                    animation-iteration-count: infinite;
+				}
+			}
+			&.poo {
+				&:before {
+					display:block;
 					background:url(../img/poop.png) no-repeat;
+					background-size:cover;
+					width:70px;
+					height:70px;
+					content:"";
+					position:absolute;
+					left:150px;
+                    margin-top:20px;
+                    animation: moving linear 3s;
+                    animation-iteration-count: infinite;
+				}
+			}
+			&.dead {
+				&:before {
+					display:block;
+					background:url(../img/dead.png) no-repeat;
 					background-size:cover;
 					width:70px;
 					height:70px;

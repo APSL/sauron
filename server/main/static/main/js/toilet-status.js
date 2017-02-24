@@ -1,9 +1,23 @@
-function createTimeCounter(date, toilet_id){
+function createTimeCounter(date, toilet_id, in_use){
     if (date){
         // Initially countdown is set to avoid the interval delay
         $("#toilet-counter-" + toilet_id).text(countdown(date).toString());
         return setInterval(function () {
-            $("#toilet-counter-" + toilet_id).text(countdown(date).toString());
+            count = countdown(date);
+            $("#toilet-counter-" + toilet_id).text(count.toString());
+            total_time = 0;
+            $("#toilet-" + toilet_id).attr("class", !in_use);
+
+            if (in_use) {
+              total_time = count.minutes*60 + count.seconds;
+              $("#toilet-" + toilet_id).attr("class", !in_use);
+              if (total_time > 60*2) {
+                 $("#toilet-" + toilet_id).attr("class", "poo");
+              }
+              if (total_time > 60*10) {
+                 $("#toilet-" + toilet_id).attr("class", "dead");
+              }
+            }
         }, 1000);
     }
 }
@@ -29,13 +43,12 @@ $(function () {
 
         // Set a time counter for each toilet
         $.each(data, function(index, item){
-            $("#toilet-" + item.toilet_id).attr("class", !item.in_use);
             $("#toilet-counter-" + item.toilet_id).attr("class", !item.in_use);
             clearTimeout(time_counters[item.toilet_id]);
 
             // If the toilet is free, show the last usage time
             if (!item.in_use){
-                time_counters[item.toilet_id] = createTimeCounter(new Date(item.end_at), item.toilet_id);
+                time_counters[item.toilet_id] = createTimeCounter(new Date(item.end_at), item.toilet_id, item.in_use);
                 badge = (badge-1 < 0) ? 0 : (badge - 1);
                 $.get('toilet/' + item.toilet_id +'/last_usage_time', function(data){
                     $("#toilet-last-usage-" + item.toilet_id).show();
@@ -43,7 +56,7 @@ $(function () {
                     $("#toilet-last-usage-time-" + item.toilet_id).text(total_time);
                 });
             }else{
-                time_counters[item.toilet_id] = createTimeCounter(new Date(item.start_at), item.toilet_id);
+                time_counters[item.toilet_id] = createTimeCounter(new Date(item.start_at), item.toilet_id, item.in_use);
                 $("#toilet-last-usage-" + item.toilet_id).hide();
             }
         });
