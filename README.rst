@@ -13,7 +13,7 @@ Screenshots
 Toilets status
 ==============
 
-.. image:: https://www.apsl.net/media/apslweb/images/Selection_060.width-800.png
+.. image:: https://www.apsl.net/media/apslweb/images/Selection_063.width-800.png
 
  
 Toilets stats
