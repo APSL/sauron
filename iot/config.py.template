@@ -1,0 +1,6 @@
+TOILET_URL = "http://localhost:8000/toilets/"
+TOILET_ID = 1
+WLAN_NAME = ''
+WLAN_PASS = ''
+MIN_LDR_VAL = 100
+MAX_LDR_VAL = 800

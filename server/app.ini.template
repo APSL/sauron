@@ -1,0 +1,40 @@
+[Paths]
+APP_ROOT                  =
+STATIC_ROOT               =
+MEDIA_ROOT                =
+
+[Logs]
+SENTRY_ENABLED            = False
+SENTRY_DSN                =
+LOG_LEVEL                 = DEBUG
+DJANGO_LOG_LEVEL          = INFO
+
+[Database]
+DATABASE_USER           =
+DATABASE_HOST           =
+DATABASE_ENGINE         =
+DATABASE_NAME           =
+DATABASE_PORT           =
+DATABASE_PASSWORD       =
+DATABASE_CONN_MAX_AGE   = 30
+
+[Base]
+APP_SLUG                  = sauron
+
+[Security]
+SECRET_KEY                =
+ALLOWED_HOSTS             = *
+
+[Debug]
+DEBUG                     = True
+TEMPLATE_DEBUG            = True
+ENABLE_DEBUG_TOOLBAR      = True
+
+[WhiteNoise]
+ENABLE_WHITENOISE = False
+
+[Cache]
+CACHE_TYPE                = dummy
+
+[WebSockets]
+WEB_SOCKET_HOST           =
