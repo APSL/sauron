@@ -1,33 +1,22 @@
-==========
-onlysmellz
-==========
+======
+sauron
+======
+Sauron is a project to monitor the usage of the toilets of `APSL <https://www.apsl.net/>`_ offices. It also collect the usage to further stats visualization.
+ 
+It uses a NodeMCU board programmed `Micropython <http://micropython.org/>`_ for the IoT side and Django with `Channels <https://github.com/django/channels/>`_ as the web server.
 
-Dependencies
-------------
+See `this blog post <https://www.apsl.net/blog/sauron-toilet-free/>`_ for more info.
 
-* Python 3, pip and virtualenvwrapper.
+Screenshots
+~~~~~~~~~~~
 
+Toilets status
+==============
 
-Installation and run
---------------------
+.. image:: https://www.apsl.net/media/apslweb/images/Selection_063.width-800.png
 
-#. Clone project from repo ::
+ 
+Toilets stats
+=============
 
-    git clone git@gitlab.apsl.net:group/project.git
-
-#. Setup virtualenv Python ::
-
-    cd appname
-    mkvirtualenv "appname" -p python3 -a ./src
-    pip install -r requirements/local.txt
-
-#. Create local configuration ::
-
-    cd src
-    cp app.ini.template app.ini
-    # Review and edit app.ini
-
-#. Run local server an check tests ::
-
-    python manage.py runserver
-    # With runserver running, open another terminal in the same virtualenv and
+.. image:: https://www.apsl.net/media/apslweb/images/Selection_061.width-800.png
